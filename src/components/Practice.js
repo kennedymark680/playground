@@ -18,12 +18,17 @@ const Practice = () => {
     setValues({
       firstName: '',
       lastName: '',
-      active: false,
+      active: true,
       id: values.id + 1
     })
   }
 
-  const remove = (index) => {}
+  const remove = (person) => {
+    let newPeople = [...people]
+    let index = newPeople.indexOf(person)
+    newPeople[index] = { ...people[index], active: false }
+    setPeople(newPeople)
+  }
 
   return (
     <div>
@@ -44,9 +49,9 @@ const Practice = () => {
       </div>
       {people.map((person) =>
         person.active ? (
-          <div>
-            <div key={person.firstName}>{person.firstName}</div>
-            <button>Remove</button>
+          <div key={person.firstName}>
+            <div>{person.firstName}</div>
+            <button onClick={() => remove(person)}>Remove</button>
           </div>
         ) : null
       )}
