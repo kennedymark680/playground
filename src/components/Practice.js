@@ -1,40 +1,55 @@
 import { useState } from 'react'
 
 const Practice = () => {
-  const [list, setList] = useState([])
-  const [value, setValue] = useState('')
+  const [people, setPeople] = useState([])
+  const [values, setValues] = useState({
+    firstName: '',
+    lastName: '',
+    active: true,
+    id: 0
+  })
 
   const handleChange = (e) => {
-    setValue(e.target.value)
+    setValues({ ...values, [e.target.name]: e.target.value })
   }
 
   const handleSubmit = () => {
-    setList([...list, value])
-    setValue('')
+    setPeople([...people, values])
+    setValues({
+      firstName: '',
+      lastName: '',
+      active: false,
+      id: values.id + 1
+    })
   }
 
-  const deleteItem = (index) => {
-    let newList = [...list]
-    newList.splice(index, 1)
-    setList(newList)
-  }
+  const remove = (index) => {}
 
   return (
     <div>
       <div>
         <input
-          placeholder="To Do"
-          value={value}
+          placeholder="First Name"
+          name="firstName"
+          value={values.firstName}
           onChange={handleChange}
         ></input>
-        <button onClick={handleSubmit}>ADD</button>
+        <input
+          placeholder="Last Name"
+          name="lastName"
+          value={values.lastName}
+          onChange={handleChange}
+        ></input>
+        <button onClick={handleSubmit}>Submit</button>
       </div>
-      {list.map((item, index) => (
-        <div key={item}>
-          <div>{item}</div>
-          <button onClick={() => deleteItem(index)}>X</button>
-        </div>
-      ))}
+      {people.map((person) =>
+        person.active ? (
+          <div>
+            <div key={person.firstName}>{person.firstName}</div>
+            <button>Remove</button>
+          </div>
+        ) : null
+      )}
     </div>
   )
 }
